@@ -24,7 +24,18 @@ class CartController extends Controller
     public function store(StoreRequest $request)
     {
         $validatedRequest = $request->validated();
-        Cart::create($validatedRequest);
+         $cart = Cart::whereUserId($validatedRequest['user_id'])
+            ->whereProductId($validatedRequest['product_id'])
+            ->first();
+
+            if ($cart){
+                $cart->update([
+                    'quantity' => $cart->quantity + $validatedRequest['quantity']
+                ]);
+            }else{
+                $cart = Cart::create($validatedRequest);
+            }
+
         return response()->noContent();
 
     }

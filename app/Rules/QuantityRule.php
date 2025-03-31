@@ -20,7 +20,7 @@ class QuantityRule implements ValidationRule
        $product =  Product::find($productId);
 
 
-       if ($product->stock > $value) {
+       if ($product->stock < $value) {
            $fail('The quantity exceeds the available stock.');
         
        }
